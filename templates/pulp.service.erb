@@ -1,0 +1,19 @@
+[Unit]
+Description=Pulp API Server
+Wants=syslog.service
+
+[Service]
+Restart=always
+RestartSec=30
+TimeoutStartSec=0
+TimeoutSec=300
+ExecStartPre=-/usr/bin/podman pull quay.io/foreman/pulp:latest
+ExecStartPre=-/usr/bin/podman rm "pulp-1"
+ExecStart=/usr/bin/podman run --name pulp-1 --net host -v /var/lib/pulp:/var/lib/pulp:Z -v /etc/pulp:/etc/pulp:Z quay.io/foreman/pulp:latest
+ExecReload=-/usr/bin/podman stop "pulp-1"
+ExecReload=-/usr/bin/podman rm "pulp-1"
+ExecStop=-/usr/bin/podman stop "pulp-1"
+EnvironmentFile=-/etc/sysconfig/pulp
+
+[Install]
+WantedBy=multi-user.target

@@ -11,9 +11,9 @@ class pulp::config {
   file { '/etc/pulp/server.conf':
     ensure    => file,
     content   => template('pulp/server.conf.erb'),
-    owner     => 'apache',
+    owner     => 'root',
     group     => 'apache',
-    mode      => '0600',
+    mode      => '0640',
     show_diff => $pulp::show_conf_diff,
   }
 

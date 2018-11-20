@@ -1,0 +1,19 @@
+[Unit]
+Description=Pulp Workers
+Wants=syslog.service
+
+[Service]
+Restart=always
+RestartSec=30
+TimeoutStartSec=0
+TimeoutSec=300
+ExecStartPre=-/usr/bin/podman pull quay.io/foreman/pulp-worker:latest
+ExecStartPre=-/usr/bin/podman rm "pulp-worker-%i"
+ExecStart=/usr/bin/podman run --name pulp-worker-%i -e PULP_WORKER_NUMBER=%i --net host -v /var/lib/pulp:/var/lib/pulp:Z -v /etc/pulp:/etc/pulp:Z quay.io/foreman/pulp-worker:latest
+ExecReload=-/usr/bin/podman stop "pulp-worker-%i"
+ExecReload=-/usr/bin/podman rm "pulp-worker-%i"
+ExecStop=-/usr/bin/podman stop "pulp-worker-%i"
+EnvironmentFile=-/etc/sysconfig/pulp-worker
+
+[Install]
+WantedBy=multi-user.target

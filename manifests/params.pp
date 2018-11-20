@@ -3,6 +3,8 @@
 class pulp::params {
   $version = 'installed'
 
+  $container = true
+
   $manage_repo = false
 
   $db_name = 'pulp_database'
@@ -24,6 +26,7 @@ class pulp::params {
   $ks_url = '/pulp/ks'
   $debugging_mode = false
   $log_level = 'INFO'
+  $log_type = 'syslog'
   $server_working_directory = undef
 
   $rsa_key = '/etc/pki/pulp/rsa.key'

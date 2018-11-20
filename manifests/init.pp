@@ -7,6 +7,8 @@
 # $version::                    pulp package version, it's passed to ensure parameter of package resource can be set to
 #                               specific version number, 'latest', 'present' etc.
 #
+# $container::                  Deploy via a container under systemd
+#
 # $crane_debug::                Whether to enable crane debug logging
 #
 # $crane_port::                 Port for Crane to run on
@@ -91,6 +93,8 @@
 #
 # $log_level::                  The desired logging level. Options are: CRITICAL, ERROR, WARNING, INFO, DEBUG, and
 #                               NOTSET.
+#
+# $log_type::                   Log type: console or syslog
 #
 # $server_working_directory::   Path to where pulp workers can create working directories needed to complete tasks
 #
@@ -277,6 +281,7 @@
 #
 class pulp (
   String $version = $::pulp::params::version,
+  Boolean $container = $::pulp::params::container,
   Boolean $crane_debug = $::pulp::params::crane_debug,
   Integer[1, 65535] $crane_port = $::pulp::params::crane_port,
   Boolean $manage_repo = $::pulp::params::manage_repo,
